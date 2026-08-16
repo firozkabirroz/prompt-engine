@@ -2,7 +2,7 @@
 
 Web app that turns a rough idea into a **token-efficient, well-structured prompt**, or compresses an existing prompt without losing meaning.
 
-Powered by Google Gemini (free tier).
+Uses free models: **Groq Llama 3.3 70B** (primary, fast) with **Gemini Flash Lite** as automatic fallback.
 
 ## Features
 
@@ -14,16 +14,18 @@ Powered by Google Gemini (free tier).
 
 ## Setup (local)
 
-### 1. Get a free API key
+### 1. Get a free API key (pick one)
 
-Open [Google AI Studio](https://aistudio.google.com/apikey) → sign in → **Create API key**.
+- **Recommended:** [Groq Console](https://console.groq.com/keys) → Create API key. No card needed. Fast and stable.
+- **Fallback:** [Google AI Studio](https://aistudio.google.com/apikey) → Create API key.
 
 ### 2. Put the key in `.env`
 
-Copy `.env.example` to `.env` and set:
+Copy `.env.example` to `.env` and set at least one:
 
 ```
-GEMINI_API_KEY=your_key_here
+GROQ_API_KEY=your_groq_key_here
+GEMINI_API_KEY=your_gemini_key_here
 ```
 
 ### 3. Install & run
@@ -44,7 +46,7 @@ Open [http://localhost:3000](http://localhost:3000)
 │   └── meta-prompt.js # Generate & Optimize system prompts
 ├── public/            # UI (HTML, CSS, JS)
 ├── vercel.json
-├── .env               # GEMINI_API_KEY (never commit)
+├── .env               # API keys (never commit)
 └── package.json
 ```
 
@@ -96,8 +98,9 @@ Do **not** commit `.env`. It is gitignored on purpose.
 1. Go to [vercel.com/new](https://vercel.com/new) and import `firozkabirroz/prompt-engine`.
 2. Framework Preset: **Other**. Root Directory: `.`
 3. Environment variables:
-   - `GEMINI_API_KEY` = your Gemini key
-   - `GEMINI_MODEL` = `gemini-flash-latest` (optional)
+   - `GROQ_API_KEY` = your Groq key (recommended)
+   - `GEMINI_API_KEY` = your Gemini key (fallback)
+   - `GEMINI_MODEL` = `gemini-flash-lite-latest` (optional)
 4. Click **Deploy**.
 
 ### Option B — CLI
@@ -112,6 +115,7 @@ vercel
 When prompted, link the existing GitHub project (or create a new Vercel project). Then set secrets and ship production:
 
 ```bash
+vercel env add GROQ_API_KEY
 vercel env add GEMINI_API_KEY
 vercel env add GEMINI_MODEL
 vercel --prod

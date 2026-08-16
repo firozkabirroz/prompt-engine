@@ -271,7 +271,7 @@ async function init() {
     const res = await fetch("/api/status");
     const data = await res.json();
     els.keyWarning.classList.toggle("hidden", data.keyConfigured);
-    els.modelName.textContent = data.model || "Gemini";
+    els.modelName.textContent = data.model || "AI";
     els.statusPill.hidden = false;
   } catch {
     els.statusPill.hidden = true;
